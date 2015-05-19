@@ -197,12 +197,14 @@ newvarsobject(lua_State *L) {
 	if (v == NULL) {
 		return NULL;
 	}
-	*box = v;
+	*box = NULL;
 	if (luaL_newmetatable(L, "luabindvars")) {
 		lua_pushcfunction(L, ldelvars);
 		lua_setfield(L, -2, "__gc");
 	}
 	lua_setmetatable(L, -2);
+
+	*box = v;
 	return v;
 }
 
