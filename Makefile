@@ -3,3 +3,4 @@ test: test.c luabind.c
 
 clean :
 	rm test
+	rm -rf *.dSYM
