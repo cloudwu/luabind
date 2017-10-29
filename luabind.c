@@ -336,7 +336,7 @@ lnewargs(lua_State *L) {
 
 static void
 errorlog(lua_State *L) {
-	fprintf(stderr, "Error: %s", lua_tostring(L, -1));
+	fprintf(stderr, "Error: %s\n", lua_tostring(L, -1));
 	lua_pop(L, 1);
 }
 
