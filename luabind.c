@@ -5,6 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
+
+struct lstr
+{
+	const char *s;
+	size_t sz;
+};
 
 struct lvar {
 	int type;
@@ -12,6 +19,7 @@ struct lvar {
 		lua_Integer i;
 		lua_Number f;
 		const char * s;
+		struct lstr *ls;
 		int b;
 		void *p;
 //		struct larray *a;
@@ -150,6 +158,20 @@ lbind_pushstring(struct vars *v, const char *str) {
 	return 0;
 }
 
+int 
+lbind_pushlstring(struct vars *v, const char *s, size_t sz)
+{
+	struct lvar * ls = newvalue(v);
+	if (ls == NULL)
+		return -1;
+	ls->type = LT_LSTRING;
+	ls->v.ls = malloc(sizeof(*(ls->v.ls)));
+	assert(ls->v.ls);
+	ls->v.ls->s = s;
+	ls->v.ls->sz = sz;
+	return 0;
+}
+
 int
 lbind_pushboolean(struct vars *v, int b) {
 	struct lvar * s = newvalue(v);
@@ -230,6 +252,10 @@ pushargs(lua_State *L, struct vars *vars) {
 			break;
 		case LT_STRING:
 			lua_pushstring(L, v->v.s);
+			break;
+		case LT_LSTRING:
+			lua_pushlstring(L, v->v.ls->s, v->v.ls->sz);
+			free(v->v.ls);
 			break;
 		case LT_BOOLEAN:
 			lua_pushboolean(L, v->v.b);

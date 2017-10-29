@@ -11,13 +11,14 @@
 #define LT_INTEGER 1
 #define LT_REAL 2
 #define LT_STRING 3
-#define LT_BOOLEAN 4
-#define LT_POINTER 5
+#define LT_LSTRING 4
+#define LT_BOOLEAN 5
+#define LT_POINTER 6
 #define LT_NONE -1
 
 // not implement now
-#define LT_ARRAY 6
-#define LT_MAP 7
+#define LT_ARRAY 7
+#define LT_MAP 8
 
 struct vars;
 
@@ -38,6 +39,7 @@ void * lbind_topointer(struct vars *v, int index);
 int lbind_pushinteger(struct vars *v, int i);
 int lbind_pushreal(struct vars *v, double f);
 int lbind_pushstring(struct vars *v, const char *s);
+int lbind_pushlstring(struct vars *v, const char *s, size_t len);
 int lbind_pushboolean(struct vars *v, int b);
 int lbind_pushnil(struct vars *v);
 int lbind_pushpointer(struct vars *v, void *p);
